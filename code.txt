@@ -1,0 +1,183 @@
+//program where customer orders 1 item from veg/non veg and 1 item from dessert.
+#include<iostream>
+#include<stdlib.h> //header file for exit()
+using namespace std;
+class base //b1
+{
+    
+    public:
+             char name[80];
+             double phone[40];
+             char address[100];
+             void greeting()
+           {
+               cout<<"Hello I am ABC,your ordering assistant \n";
+               cout<<"Welcome to Tomato! \n";
+           }
+              void details();
+};
+void base::details()
+{
+            cout<<"Enter your name: \n";
+            cin>>name;
+            cout<<"Enter phone number: \n";
+            cin>>phone[40];
+           /* cout<<"Enter your delivery address:\n";
+            cin>>address;
+            cout<<endl;*/
+}       
+
+class customer:public base //c1
+{
+    protected:int n[10];
+              char x;
+    public:
+    void request()
+    {
+    cout<<"Enter any character for alphabet for ordering.\n";
+    cout<<"Incase of any query/clarification.\n";
+    cout<<"Enter q for query and c for clarification. \n";
+    cin>>x;
+    if(x=='q'||x=='c')
+    {
+    
+    cout<<"Enter phone number \n";
+    cin>>n[10];
+    cout<<"We will do our best to assist you.Please wait while we connect your call \n";
+    exit(0); //to terminate program
+    }
+    else if(x>='a'||x <='z'||x!='q'||x!='r')
+    {
+        cout<<"You can start ordering.\n";
+    }
+    }
+};
+
+class order:public base //o1
+{
+  protected:char n,d;
+           
+  public: 
+          int veg,non,des;
+          void set(int v,int n,int d) //to set prices 
+            {
+                veg=v;
+                non=n;
+                des=d;
+            };
+    void menu()
+    {
+        cout<<"Enter v for vegetarian and n for non vegetarian. \n";
+        cin>>n;
+        if(n=='v')
+        {
+            int q;
+            cout<<"Enter"<<endl<<"1.Idli-Rs 100"<<endl<<"2.Pav Bhaji-Rs 100"<<endl<<"3.Pongal-Rs 100"<<endl;
+            cin>>q;
+            switch(q)
+            {
+                case 1:cout<<"Idli -Rs 100";
+                break;
+                case 2:cout<<"Pav Bhaji-Rs 100";
+                break;
+                case 3:cout<<"Pongal-Rs 100";
+                break;
+                default:cout<<"Invalid entry.Try again.\n";
+                menu();
+                break;
+            } cout<<endl;
+        }
+        else if(n=='n')
+        {
+            int p;
+            cout<<"Enter"<<endl<<"1.Chicken Biryani-Rs 120"<<endl<<"2.Cutlet-Rs 120"
+            <<endl<<"3.Fish Curry-Rs 120"<<endl;
+            cin>>p;
+            switch(p)
+            {
+                case 1:cout<<"Chicken Biryani-Rs 120";
+                break;
+                case 2:cout<<"cutlet-Rs 120";
+                break;
+                case 3:cout<<"Fish Curry-Rs 120";
+                break;
+                default:cout<<"Invalid entry.Try again.\n";
+                menu();
+                break;
+            }  
+        }
+    }
+       void dessert()
+       {
+        int n;
+        cout<<"Choose d for dessert \n";
+        cin>>d;
+        cout<<"Enter"<<endl<<"1.Gulab Jamun-Rs 50"<<endl<<"2.Ice cream-Rs 50"<<endl<<"3.Cake-Rs 50"<<endl;
+        cin>>n;
+        switch(n)
+            {
+                case 1:cout<<"Gulab Jamun-Rs 50";
+                break;
+                case 2:cout<<"Ice cream-Rs 50";
+                break;
+                case 3:cout<<"Cake-Rs 50";
+                break;
+                default:cout<<"Invalid entry.Try again.\n ";
+                dessert();
+                break;
+            } 
+            cout<<endl;
+            cout<<"Great choice! \n";
+        }
+};
+
+class amt:public order
+{  
+    public:
+    void total(order o1);
+};
+void amt::total(order o1)
+{
+        int total;
+        total=o1.veg+o1.non+o1.des;
+        cout<<"Total amout to be paid=Rs "<<total<<endl;
+}
+
+class paymethod:public order//p1
+{ 
+    protected:int a;
+    public:void paym()
+    {
+    cout<<"Would you like to pay using Cash or UPI? \n";
+    cout<<"If Cash select 1, UPI select 2 \n";
+    cin>>a;
+    switch(a)
+    {
+        case 1:
+        cout<<"Cash \n";
+        break;
+        case 2:cout<<"UPI\n";
+        break;
+    }
+    cout<<"Thank you!Hope you enjoy!\n";
+    cout<<"Bon Appetit!";
+    }
+};
+
+int main()
+{   
+    base b1;
+    customer c1;
+    order o1;
+    amt a1;
+    paymethod p1;
+    b1.greeting();
+    c1.request();
+    b1.details();
+    o1.menu();
+    o1.dessert();
+    o1.set(100,120,50);
+    a1.total(o1);
+    p1.paym();
+}
+
