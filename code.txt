@@ -1,48 +1,46 @@
 //program where customer orders 1 item from veg/non veg and 1 item from dessert.
 #include<iostream>
+#include<iomanip>
 #include<stdlib.h> //header file for exit()
 using namespace std;
 class base //b1
 {
-    
+    protected:char name[100];
+              double phone[40];
+              char address[100];
     public:
-             char name[80];
-             double phone[40];
-             char address[100];
              void greeting()
            {
-               cout<<"Hello I am ABC,your ordering assistant \n";
-               cout<<"Welcome to Tomato! \n";
+               cout<<setw(70)<<"HELLO I AM ABC YOUR ORDERING ASSISTANT \n";
+               cout<<setw(55)<<"WELCOME TO TOMATO\n" ;
            }
               void details();
 };
 void base::details()
 {
-            cout<<"Enter your name: \n";
+            cout<<"ENTER YOUR NAME: \n";
             cin>>name;
-            cout<<"Enter phone number: \n";
+            cout<<"ENTER PHONE NUMBER: \n";
             cin>>phone[40];
-           /* cout<<"Enter your delivery address:\n";
-            cin>>address;
-            cout<<endl;*/
+         
 }       
 
 class customer:public base //c1
 {
-    protected:int n[10];
+    protected:
               char x;
     public:
     void request()
     {
-    cout<<"Enter any character for alphabet for ordering.\n";
-    cout<<"Incase of any query/clarification.\n";
+       cout<<endl;
+    cout<<"Enter any character or alphabet for ordering.\n";
+    cout<<"Incase of any query/clarification.\n"<<endl;
     cout<<"Enter q for query and c for clarification. \n";
     cin>>x;
     if(x=='q'||x=='c')
     {
-    
-    cout<<"Enter phone number \n";
-    cin>>n[10];
+    details();
+    cout<<endl;
     cout<<"We will do our best to assist you.Please wait while we connect your call \n";
     exit(0); //to terminate program
     }
@@ -56,8 +54,10 @@ class customer:public base //c1
 class order:public base //o1
 {
   protected:char n,d;
-           
-  public: 
+            char name[100];
+            double phone[40];
+            char address[100];
+  public: friend class amt;
           int veg,non,des;
           void set(int v,int n,int d) //to set prices 
             {
@@ -67,12 +67,13 @@ class order:public base //o1
             };
     void menu()
     {
-        cout<<"Enter v for vegetarian and n for non vegetarian. \n";
+        cout<<"ENTER v FOR VEGETARIAN AND n FOR NON VEGETARIAN. \n";
         cin>>n;
         if(n=='v')
         {
             int q;
-            cout<<"Enter"<<endl<<"1.Idli-Rs 100"<<endl<<"2.Pav Bhaji-Rs 100"<<endl<<"3.Pongal-Rs 100"<<endl;
+            cout<<"ENTER"<<endl<<"1.IDLI-Rs 100"<<endl;
+            cout<<"2.PAV BHAJI-Rs 100"<<endl<<"3.PONGAL-Rs 100"<<endl;
             cin>>q;
             switch(q)
             {
@@ -90,8 +91,8 @@ class order:public base //o1
         else if(n=='n')
         {
             int p;
-            cout<<"Enter"<<endl<<"1.Chicken Biryani-Rs 120"<<endl<<"2.Cutlet-Rs 120"
-            <<endl<<"3.Fish Curry-Rs 120"<<endl;
+            cout<<"Enter"<<endl<<"1.CHICKEN BIRYANI-Rs 120"<<endl<<"2.CUTLET-Rs 120"
+            <<endl<<"3.FISH CURRY-Rs 120"<<endl;
             cin>>p;
             switch(p)
             {
@@ -110,9 +111,11 @@ class order:public base //o1
        void dessert()
        {
         int n;
+        cout<<endl;
         cout<<"Choose d for dessert \n";
         cin>>d;
-        cout<<"Enter"<<endl<<"1.Gulab Jamun-Rs 50"<<endl<<"2.Ice cream-Rs 50"<<endl<<"3.Cake-Rs 50"<<endl;
+        cout<<"Enter"<<endl<<"1.GULAB JAMUN-Rs 50"<<endl;
+        <<"2.ICE CREAM-Rs 50"<<endl<<"3.CAKE-Rs 50"<<endl;
         cin>>n;
         switch(n)
             {
@@ -127,27 +130,40 @@ class order:public base //o1
                 break;
             } 
             cout<<endl;
-            cout<<"Great choice! \n";
+            cout<<"GREAT CHOICE! \n";
         }
 };
 
-class amt:public order
+class amt
 {  
-    public:
+    public:char address[100];
     void total(order o1);
+   
 };
 void amt::total(order o1)
 {
         int total;
         total=o1.veg+o1.non+o1.des;
-        cout<<"Total amout to be paid=Rs "<<total<<endl;
+        cout<<" Amount to be paid=Rs "<<total<<endl;
+        int q;
+		cout<<"Enter the quantity:";
+		cin>>q;
+		total=(o1.veg)*q+(o1.non)*q+(o1.des)*q;
+        cout<<"Total amount to be paid with tax=Rs "<<total<<endl;
+
 }
 
 class paymethod:public order//p1
 { 
-    protected:int a;
-    public:void paym()
+    public:int a;
+     virtual void display()
+     {
+           cout<<"THANK YOU.HOPE YOU ENJOY!\n";
+    cout<<"BON APPETIT!";
+     }
+    void paym()
     {
+        cout<<endl;
     cout<<"Would you like to pay using Cash or UPI? \n";
     cout<<"If Cash select 1, UPI select 2 \n";
     cin>>a;
@@ -158,10 +174,41 @@ class paymethod:public order//p1
         break;
         case 2:cout<<"UPI\n";
         break;
+        cout<<endl;
     }
-    cout<<"Thank you!Hope you enjoy!\n";
-    cout<<"Bon Appetit!";
     }
+};
+class bill:public order
+{
+	public:
+	    void display()
+	      {
+	          cout<<"---Do visit again:)---"<<endl;
+	      }
+	
+void billme()
+	{  
+	    if(n=='V')
+		{
+		   
+			cout<<"ABC Hotel"<<endl;
+			cout<<"Link Road"<<endl;
+			cout<<"Sl no.   ITEMS              Amount"<<endl;
+			cout<<"1.       vegetarian food    100"<<endl;
+			cout<<"2.       Desert             50"<<endl;
+			cout<<"Total                       150"<<endl;
+		}
+		else
+		{
+			cout<<"             ABC Hotel"<<endl;
+			cout<<"              Link road"<<endl;
+			cout<<"Sl no.   ITEMS                  Amount"<<endl;
+			cout<<"1.       non-vegetarian food    120"<<endl;
+			cout<<"2.       Desert                 50"<<endl;
+			cout<<"Total                           170"<<endl;
+		}
+	      
+	}
 };
 
 int main()
@@ -170,6 +217,7 @@ int main()
     customer c1;
     order o1;
     amt a1;
+    bill b2;
     paymethod p1;
     b1.greeting();
     c1.request();
@@ -179,5 +227,8 @@ int main()
     o1.set(100,120,50);
     a1.total(o1);
     p1.paym();
+    p1.display();
+   b2.billme();
+   b2.display();
+    
 }
-
